@@ -18,7 +18,7 @@ const double SQAURE_SIZE = 2.0 / MAZE_SIZE;
 
 int _maze[MAZE_SIZE][MAZE_SIZE];
 
-void init()
+void Init()
 {
 	// clear maze
 	for (int row = 0; row < MAZE_SIZE; row++)
@@ -35,12 +35,8 @@ void init()
 	
 }
 
-// this function will be called by GLUT every time the window needs to be painted.
-void renderDisplay()
-{	
-	// indicates the buffers currently enabled for color writing.
-	glClear(GL_COLOR_BUFFER_BIT);
-
+void DrawMazeSquares()
+{
 	// switch case for indicating what color to draw the square
 	for (int row = 0; row < MAZE_SIZE; row++)
 		for (int column = 0; column < MAZE_SIZE; column++)
@@ -67,6 +63,16 @@ void renderDisplay()
 			glVertex2d(column * SQAURE_SIZE - 1 - SQAURE_SIZE / 2, row * SQAURE_SIZE - 1 - SQAURE_SIZE / 2);
 			glEnd();
 		}
+}
+
+// this function will be called by GLUT every time the window needs to be painted.
+void RenderDisplay()
+{	
+	// indicates the buffers currently enabled for color writing.
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	// drawing the squares with colors
+	DrawMazeSquares();
 
 	glutSwapBuffers();
 }
@@ -87,10 +93,10 @@ void main(int argc, char* argv[])
 	glutCreateWindow("Test Window Title");
 	
 	// register callbacks // refresh function
-	glutDisplayFunc(renderDisplay);
+	glutDisplayFunc(RenderDisplay);
 
 	// sketching the maze
-	init();
+	Init();
 
 	// start GLUT event processing cycle
 	glutMainLoop();
