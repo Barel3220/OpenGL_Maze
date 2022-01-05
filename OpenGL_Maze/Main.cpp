@@ -5,13 +5,14 @@
 using namespace std;
 
 // declaring variables
-const int HEIGHT = 600;
-const int WIDTH = 600;
+const int HEIGHT = 800;
+const int WIDTH = 800;
 
 // declaring const ints for numbering the maze
 const int SPACE = 0;
-const int START = 1;
-const int WALL = 2;
+const int WALL = 1;
+const int START = 2;
+const int TARGET = 3;
 
 const int MAZE_SIZE = 200;
 const double SQAURE_SIZE = 2.0 / MAZE_SIZE;
@@ -23,15 +24,26 @@ void Init()
 	// clear maze
 	for (int row = 0; row < MAZE_SIZE; row++)
 		for (int column = 0; column < MAZE_SIZE; column++)
-			_maze[row][column] = 0;
+			_maze[row][column] = SPACE;
 
-	// start point
-	_maze[MAZE_SIZE / 2][MAZE_SIZE / 2] = 1;
+	// drawing random walls to create the maze picture
+	for (int row = 1; row < MAZE_SIZE - 1; row++)
+		for (int column = 1; column < MAZE_SIZE - 1; column++)
+			if (!(row % 2) && (rand() % (MAZE_SIZE / 2) < 40))
+				_maze[row][column] = WALL;
+			else if (rand() % (MAZE_SIZE / 2) < 20)
+				_maze[row][column] = WALL;
 
 	// drawing outer walls
 	for (int i = 0; i < MAZE_SIZE; i++)
 		// left // right // top // bottom
-		_maze[i][0] = _maze[i][MAZE_SIZE - 1] = _maze[0][i] = _maze[MAZE_SIZE - 1][i] = 2;
+		_maze[i][0] = _maze[i][MAZE_SIZE - 1] = _maze[0][i] = _maze[MAZE_SIZE - 1][i] = WALL;
+
+	// start point
+	_maze[MAZE_SIZE / 2][MAZE_SIZE / 2] = START;
+
+	// target point
+	_maze[rand() % MAZE_SIZE][rand() % MAZE_SIZE] = TARGET;
 	
 }
 
@@ -46,11 +58,14 @@ void DrawMazeSquares()
 			case SPACE:
 				glColor3d(1, 1, 1); // white;
 				break;
+			case WALL:
+				glColor3d(.4, 0, 0); // dark red;
+				break;
 			case START:
 				glColor3d(0, 0, 1); // blue;
 				break;
-			case WALL:
-				glColor3d(.4, 0, 0); // dark red;
+			case TARGET:
+				glColor3d(0, 1, 0); // green;
 				break;
 			default:
 				break;
