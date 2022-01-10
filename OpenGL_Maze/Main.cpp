@@ -1,6 +1,5 @@
 #include <gl/glut.h>
 #include <stdlib.h>
-#include <iostream>
 #include <time.h>
 #include <vector>
 #include "Point2D.h"
@@ -28,6 +27,8 @@ int _maze[MAZE_SIZE][MAZE_SIZE];
 
 // boolean to start BDS
 bool _bds_started = false;
+// boolean to start A*
+bool _a_star_started = false;
 
 // source and target queues // declared here for initializing
 vector<Point2D*> _source_queue;
@@ -205,10 +206,12 @@ void TryMove(Point2D* temporary, bool _is_source, int y_direction, int x_directi
 
 void BidirectionalSearch()
 {
-	// bidirectional search is a graph search algorithm which find smallest path from source to target vertex.
-	// it runs two simultaneous search:
-	// 1. forward search - from source to target
-	// 2. backward search - from target to source
+	/*
+		bidirectional search is a graph search algorithm which find smallest path from source to target vertex.
+		it runs two simultaneous search:
+		1. forward search - from source to target
+		2. backward search - from target to source
+	*/
 
 	// source and target points
 	Point2D* _source_ptr;
@@ -261,6 +264,16 @@ void BidirectionalSearch()
 	}
 }
 
+void A_StarSearch()
+{
+	/* 
+		a* search algorithm is one of the best and popular technique used in path - finding and graph traversals.
+		unlike other traversal technique, a* has "brains", it calculates the distance between current point to the
+		target and prioritize the best option to complete the task.
+	*/
+
+}
+
 // this function will be called by GLUT every time the window needs to be painted.
 void RenderDisplay()
 {	
@@ -278,10 +291,10 @@ void RightClickMenu(int choise)
 	switch (choise)
 	{
 	case 1:
-		Init();
+		_bds_started = true;
 		break;
 	case 2:
-		_bds_started = true;
+		_a_star_started = true;
 		break;
 	default:
 		break;
@@ -292,6 +305,8 @@ void Idle()
 {
 	if (_bds_started)
 		BidirectionalSearch();
+	if (_a_star_started)
+		A_StarSearch();
 	// calls indirectly to display method
 	glutPostRedisplay();
 }
@@ -322,8 +337,8 @@ void main(int argc, char* argv[])
 	// creating a menu to re-draw the maze
 	glutCreateMenu(RightClickMenu);
 	// adding options to the menu
-	glutAddMenuEntry("Draw Maze", 1);
-	glutAddMenuEntry("BDS", 2);
+	glutAddMenuEntry("BDS", 1);
+	glutAddMenuEntry("A*", 2);
 	// attaching the right button to the menu
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 
