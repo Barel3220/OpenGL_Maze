@@ -44,7 +44,6 @@ void Init()
 
 	// target point
 	_maze[rand() % MAZE_SIZE][rand() % MAZE_SIZE] = TARGET;
-	
 }
 
 void DrawMazeSquares()
@@ -80,6 +79,14 @@ void DrawMazeSquares()
 		}
 }
 
+void BidirectionalSearch()
+{
+	// bidirectional search is a graph search algorithm which find smallest path from source to target vertex.
+	// it runs two simultaneous search:
+	// 1. forward search - from source to target
+	// 2. backward search - from target to source
+}
+
 // this function will be called by GLUT every time the window needs to be painted.
 void RenderDisplay()
 {	
@@ -98,12 +105,15 @@ void RightClickMenu(int choise)
 	{
 	case 1:
 		Init();
-		// calls indirectly to display method
-		glutPostRedisplay();
+		break;
+	case 2:
+		BidirectionalSearch();
 		break;
 	default:
 		break;
 	}
+	// calls indirectly to display method
+	glutPostRedisplay();
 }
 
 void main(int argc, char* argv[])
@@ -131,6 +141,7 @@ void main(int argc, char* argv[])
 	glutCreateMenu(RightClickMenu);
 	// adding options to the menu
 	glutAddMenuEntry("Draw Maze", 1);
+	glutAddMenuEntry("BDS", 2);
 	// attaching the right button to the menu
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 
