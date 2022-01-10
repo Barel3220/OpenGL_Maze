@@ -92,6 +92,20 @@ void RenderDisplay()
 	glutSwapBuffers();
 }
 
+void RightClickMenu(int choise)
+{
+	switch (choise)
+	{
+	case 1:
+		Init();
+		// calls indirectly to display method
+		glutPostRedisplay();
+		break;
+	default:
+		break;
+	}
+}
+
 void main(int argc, char* argv[])
 {
 	// init GLUT
@@ -112,6 +126,13 @@ void main(int argc, char* argv[])
 
 	// sketching the maze
 	Init();
+
+	// creating a menu to re-draw the maze
+	glutCreateMenu(RightClickMenu);
+	// adding options to the menu
+	glutAddMenuEntry("Draw Maze", 1);
+	// attaching the right button to the menu
+	glutAttachMenu(GLUT_RIGHT_BUTTON);
 
 	// start GLUT event processing cycle
 	glutMainLoop();
