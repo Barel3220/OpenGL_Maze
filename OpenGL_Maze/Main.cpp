@@ -97,13 +97,16 @@ void DrawMazeSquares()
 				glColor3d(0, 1, 0); // green;
 				break;
 			case VISITED_SOURCE_TARGET:
-				glColor3d(.2, .5, .6); // random color
+				glColor3d(.2, .5, .6); // pale blue
 				break;
 			case VISITED_TARGET_SOURCE:
-				glColor3d(.4, .2, .1); // random color
+				glColor3d(.4, .5, .1); // pale green
 				break;
 			case VISITING:
-				glColor3d(1, .8, 0); // ORANGE;
+				glColor3d(1, .8, 0); // orange;
+				break;
+			case PATH:
+				glColor3d(.8, .5, 1); // pink
 				break;
 			default:
 				break;
@@ -138,7 +141,22 @@ void UpdateTargetParent_Queue(Point2D* temporary, int y_direction, int x_directi
 
 void ShowBidirectionalSearchPath(Point2D* source, Point2D* target)
 {
+	while (_maze[source->GetY()][source->GetX()] != SOURCE)
+	{
+		_maze[source->GetY()][source->GetX()] = PATH;
+		source = _sources_parents[source->GetY()][source->GetX()];
+	}
 
+	while (_maze[target->GetY()][target->GetX()] != TARGET)
+	{
+		_maze[target->GetY()][target->GetX()] = PATH;
+		target = _targets_parents[target->GetY()][target->GetX()];
+	}
+
+	for (int i = 0; i < _source_queue.size(); i++)
+		delete _source_queue[i];
+	for (int i = 0; i < _target_queue.size(); i++)
+		delete _target_queue[i];
 }
 
 void CheckMaze(Point2D* temporary, bool _is_source, int y_direction, int x_direction) {
