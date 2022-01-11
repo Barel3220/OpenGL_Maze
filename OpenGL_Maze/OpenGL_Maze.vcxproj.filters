@@ -21,9 +21,15 @@
     <ClCompile Include="Point2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="NextNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Point2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NextNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

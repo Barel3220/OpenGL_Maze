@@ -30,11 +30,11 @@ bool _bds_started = false;
 // boolean to start A*
 bool _a_star_started = false;
 
-// source and target queues // declared here for initializing
+// source and target queues // declared here for initializing - BDS
 vector<Point2D*> _source_queue;
 vector<Point2D*> _target_queue;
 
-// parents matrices
+// parents matrices - BDS
 Point2D* _sources_parents[MAZE_SIZE][MAZE_SIZE];
 Point2D* _targets_parents[MAZE_SIZE][MAZE_SIZE];
 
@@ -154,9 +154,9 @@ void ShowBidirectionalSearchPath(Point2D* source, Point2D* target)
 		target = _targets_parents[target->GetY()][target->GetX()];
 	}
 
-	for (int i = 0; i < _source_queue.size(); i++)
+	for (size_t i = 0; i < _source_queue.size(); i++)
 		delete _source_queue[i];
-	for (int i = 0; i < _target_queue.size(); i++)
+	for (size_t i = 0; i < _target_queue.size(); i++)
 		delete _target_queue[i];
 }
 
@@ -311,7 +311,7 @@ void Idle()
 	glutPostRedisplay();
 }
 
-void main(int argc, char* argv[])
+int main(int argc, char* argv[])
 {
 	// init GLUT
 	// must first initializing GLUT function to be able using glut-functions
@@ -344,4 +344,6 @@ void main(int argc, char* argv[])
 
 	// start GLUT event processing cycle
 	glutMainLoop();
+
+	return 0;
 }
