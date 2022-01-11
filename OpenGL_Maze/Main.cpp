@@ -6,6 +6,7 @@
 #include "Point2D.h"
 #include "NextNode.h"
 #include "CompareNodes.h"
+#include <iostream>
 
 using namespace std;
 
@@ -44,6 +45,11 @@ Point2D* _targets_parents[MAZE_SIZE][MAZE_SIZE];
 // priority queue - A*
 priority_queue <NextNode*, vector<NextNode*>, CompareNodes> _priority_queue;
 
+// vectors for gray and black queues
+// gray for visiting nodes and black for visited nodes
+vector <NextNode*> _gray;
+vector <NextNode*> _black;
+
 void Init()
 {
 	// clearing parents matrices
@@ -81,6 +87,13 @@ void Init()
 	auto _temp_target_ptr = new Point2D(rand() % MAZE_SIZE, rand() % MAZE_SIZE);
 	_maze[_temp_target_ptr->GetY()][_temp_target_ptr->GetX()] = TARGET;
 	_target_queue.push_back(_temp_target_ptr);
+
+	// entering the points into node
+	auto _first_node = new NextNode(_temp_source_ptr, _temp_target_ptr);
+	// updating the priority queue with the first node
+	_priority_queue.emplace(_first_node);
+	// updating gray vector for visiting first node
+	_gray.push_back(_first_node);
 }
 
 void DrawMazeSquares()
@@ -277,7 +290,28 @@ void A_StarSearch()
 		unlike other traversal technique, a* has "brains", it calculates the distance between current point to the
 		target and prioritize the best option to complete the task.
 	*/
+	NextNode* _current_node;
 
+	// gray iterator for gray vector
+	vector<NextNode*>::iterator _gray_iterator;
+
+	if (_priority_queue.empty())
+		_a_star_started = false;
+	else
+	{
+		// saving the current node for advancing the algorithm
+		_current_node = _priority_queue.top();
+		
+		// taking out the node from the priority queue
+		_priority_queue.pop();
+
+		// entering the node into the black queue because we already checked it
+		_black.push_back(_current_node);
+
+		// finding the node in the gray queue and removing it
+		_gray_iterator = find(_gray.begin(), _gray.end(), _current_node);
+		_gray.erase(_gray_iterator);
+	}
 }
 
 // this function will be called by GLUT every time the window needs to be painted.

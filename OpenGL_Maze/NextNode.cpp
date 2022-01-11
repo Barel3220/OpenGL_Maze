@@ -16,3 +16,8 @@ NextNode::NextNode(Point2D* source, Point2D* target)
 	this->_f = 0;
 	this->_g = 0;
 }
+
+Point2D* NextNode::GetSourcePoint()
+{
+	return this->_source_point;
+}

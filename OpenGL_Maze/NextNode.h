@@ -12,5 +12,6 @@ public:
 	NextNode();
 	~NextNode();
 	NextNode(Point2D*, Point2D*);
+	Point2D* GetSourcePoint();
 };
 
