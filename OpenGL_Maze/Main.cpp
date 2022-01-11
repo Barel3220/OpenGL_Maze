@@ -208,7 +208,7 @@ void CheckMaze(Point2D* temporary, bool _is_source, int y_direction, int x_direc
 		}
 }
 
-void TryMove(Point2D* temporary, bool _is_source, int y_direction, int x_direction)
+void TryMove_BDS(Point2D* temporary, bool _is_source, int y_direction, int x_direction)
 {
 	// check if there's an intersection first
 	CheckMaze(temporary, _is_source, y_direction, x_direction);
@@ -261,26 +261,47 @@ void BidirectionalSearch()
 			}
 
 			// try to move source up
-			TryMove(_source_ptr, true, 1, 0);
+			TryMove_BDS(_source_ptr, true, 1, 0);
 			// try to move target up
-			TryMove(_target_ptr, false, 1, 0);
+			TryMove_BDS(_target_ptr, false, 1, 0);
 
 			// try to move source down
-			TryMove(_source_ptr, true, -1, 0);
+			TryMove_BDS(_source_ptr, true, -1, 0);
 			// try to move target down
-			TryMove(_target_ptr, false, -1, 0);
+			TryMove_BDS(_target_ptr, false, -1, 0);
 
 			// try to move source right
-			TryMove(_source_ptr, true, 0, 1);
+			TryMove_BDS(_source_ptr, true, 0, 1);
 			// try to move target right
-			TryMove(_target_ptr, false, 0, 1);
+			TryMove_BDS(_target_ptr, false, 0, 1);
 
 			// try to move source left
-			TryMove(_source_ptr, true, 0, -1);
+			TryMove_BDS(_source_ptr, true, 0, -1);
 			// try to move target left
-			TryMove(_target_ptr, false, 0, -1);
+			TryMove_BDS(_target_ptr, false, 0, -1);
 		}
 	}
+}
+
+void TryMove_A_Star(NextNode* temporary, int y_direction, int x_direction)
+{
+	if (_maze[temporary->GetSourcePoint()->GetY() + y_direction][temporary->GetSourcePoint()->GetX() + x_direction] == TARGET)
+		_a_star_started = false;
+	if (_a_star_started && _maze[temporary->GetSourcePoint()->GetY() + y_direction][temporary->GetSourcePoint()->GetX() + x_direction] == SPACE)
+	{
+		// marking the movement as visiting
+		_maze[temporary->GetSourcePoint()->GetY() + y_direction][temporary->GetSourcePoint()->GetX() + x_direction] = VISITING;
+		
+		// make the move
+		temporary->TryMove(y_direction, x_direction);
+
+		// updating the parent
+
+		// getting the iterators
+
+		// updating the priority queue and the gray list
+	}
+	
 }
 
 void A_StarSearch()
@@ -311,6 +332,23 @@ void A_StarSearch()
 		// finding the node in the gray queue and removing it
 		_gray_iterator = find(_gray.begin(), _gray.end(), _current_node);
 		_gray.erase(_gray_iterator);
+
+		// checking if the current node is getting us to the target
+		if (_maze[_current_node->GetSourcePoint()->GetY()][_current_node->GetSourcePoint()->GetX()] == TARGET)
+			_a_star_started = false;
+		else
+		{
+			if (_maze[_current_node->GetSourcePoint()->GetY()][_current_node->GetSourcePoint()->GetX()] != SOURCE)
+				_maze[_current_node->GetSourcePoint()->GetY()][_current_node->GetSourcePoint()->GetX()] = VISITED_SOURCE_TARGET;
+
+			// try to move up
+
+			// try to move down
+
+			// try to move right
+
+			// try to move left
+		}
 	}
 }
 

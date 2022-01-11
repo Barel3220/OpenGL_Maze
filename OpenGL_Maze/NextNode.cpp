@@ -21,3 +21,21 @@ Point2D* NextNode::GetSourcePoint()
 {
 	return this->_source_point;
 }
+
+void NextNode::SetParentNode(NextNode* parent)
+{
+	this->_parent_node = parent;
+}
+
+void NextNode::TryMove(int y_direction, int x_direction)
+{
+	this->SetPoint(this->_source_point->GetY() + y_direction, this->_source_point->GetX() + x_direction);
+	// updating _g
+	// calculating f
+}
+
+void NextNode::SetPoint(int y, int x)
+{
+	this->_source_point->SetY(y);
+	this->_source_point->SetX(x);
+}

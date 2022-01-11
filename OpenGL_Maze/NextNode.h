@@ -13,5 +13,8 @@ public:
 	~NextNode();
 	NextNode(Point2D*, Point2D*);
 	Point2D* GetSourcePoint();
+	void SetParentNode(NextNode*);
+	void TryMove(int, int);
+	void SetPoint(int, int);
 };
 
