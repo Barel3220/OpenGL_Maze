@@ -2,7 +2,10 @@
 #include <stdlib.h>
 #include <time.h>
 #include <vector>
+#include <queue>
 #include "Point2D.h"
+#include "NextNode.h"
+#include "CompareNodes.h"
 
 using namespace std;
 
@@ -37,6 +40,9 @@ vector<Point2D*> _target_queue;
 // parents matrices - BDS
 Point2D* _sources_parents[MAZE_SIZE][MAZE_SIZE];
 Point2D* _targets_parents[MAZE_SIZE][MAZE_SIZE];
+
+// priority queue - A*
+priority_queue <NextNode*, vector<NextNode*>, CompareNodes> _priority_queue;
 
 void Init()
 {

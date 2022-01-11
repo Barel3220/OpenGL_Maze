@@ -24,12 +24,18 @@
     <ClCompile Include="NextNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CompareNodes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Point2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NextNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CompareNodes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
