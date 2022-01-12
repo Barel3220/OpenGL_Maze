@@ -25,5 +25,6 @@ public:
 	void FixG();
 	void FixPoint(int, int);
 	int GetF();
+	NextNode* GetParent();
 };
 

@@ -35,8 +35,8 @@ bool _bds_started = false;
 bool _a_star_started = false;
 
 // source and target queues // declared here for initializing - BDS
-vector<Point2D*> _source_queue;
-vector<Point2D*> _target_queue;
+vector <Point2D*> _source_queue;
+vector <Point2D*> _target_queue;
 
 // parents matrices - BDS
 Point2D* _sources_parents[MAZE_SIZE][MAZE_SIZE];
@@ -49,9 +49,14 @@ priority_queue <NextNode*, vector<NextNode*>, CompareNodes> _priority_queue;
 // gray for visiting nodes and black for visited nodes
 vector <NextNode*> _gray;
 vector <NextNode*> _black;
+// solution vector
+vector <NextNode*> _solution;
 
 void Init()
 {
+	// initializing the seed for random
+	srand(time(0));
+
 	// clearing parents matrices
 	for (int row = 0; row < MAZE_SIZE; row++)
 		for (int column = 0; column < MAZE_SIZE; column++)
@@ -283,6 +288,15 @@ void BidirectionalSearch()
 	}
 }
 
+void ShowAStarPath(NextNode* temporary_parent)
+{
+	while (temporary_parent->GetParent() != nullptr)
+	{
+		_maze[temporary_parent->GetSourcePoint()->GetY()][temporary_parent->GetSourcePoint()->GetX()] = PATH;
+		temporary_parent = temporary_parent->GetParent();
+	}
+}
+
 void TryMove_A_Star(NextNode* temporary, int y_direction, int x_direction)
 {
 	// saving the current node as parent
@@ -326,9 +340,7 @@ void TryMove_A_Star(NextNode* temporary, int y_direction, int x_direction)
 	}
 
 	if (!_a_star_started)
-	{
-
-	}
+		ShowAStarPath(_temporary_parent);
 }
 
 void A_StarSearch()

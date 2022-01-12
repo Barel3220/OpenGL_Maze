@@ -63,6 +63,11 @@ void NextNode::FixPoint(int y_direction, int x_direction)
 	this->SetPoint(this->_source_point->GetY() - y_direction, this->_source_point->GetX() - x_direction);
 }
 
+NextNode* NextNode::GetParent()
+{
+	return this->_parent_node;
+}
+
 int NextNode::GetF()
 {
 	return this->_f;
