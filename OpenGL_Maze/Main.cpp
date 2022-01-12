@@ -6,7 +6,6 @@
 #include "Point2D.h"
 #include "NextNode.h"
 #include "CompareNodes.h"
-#include <iostream>
 
 using namespace std;
 
@@ -45,12 +44,10 @@ Point2D* _targets_parents[MAZE_SIZE][MAZE_SIZE];
 // priority queue - A*
 priority_queue <NextNode*, vector<NextNode*>, CompareNodes> _priority_queue;
 
-// vectors for gray and black queues
+// vectors for gray and black queues - A*
 // gray for visiting nodes and black for visited nodes
 vector <NextNode*> _gray;
 vector <NextNode*> _black;
-// solution vector
-vector <NextNode*> _solution;
 
 void Init()
 {
