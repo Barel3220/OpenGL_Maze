@@ -285,23 +285,50 @@ void BidirectionalSearch()
 
 void TryMove_A_Star(NextNode* temporary, int y_direction, int x_direction)
 {
+	// saving the current node as parent
+	NextNode* _temporary_parent = new NextNode(temporary);
+	// creating a temp pointer to current
+	NextNode* _temporary_pointer;
+
+	// gray iterator for gray vector
+	vector<NextNode*>::iterator _gray_iterator;
+	// black iterator for black vector
+	vector<NextNode*>::iterator _black_iterator;
+
 	if (_maze[temporary->GetSourcePoint()->GetY() + y_direction][temporary->GetSourcePoint()->GetX() + x_direction] == TARGET)
 		_a_star_started = false;
 	if (_a_star_started && _maze[temporary->GetSourcePoint()->GetY() + y_direction][temporary->GetSourcePoint()->GetX() + x_direction] == SPACE)
 	{
 		// marking the movement as visiting
 		_maze[temporary->GetSourcePoint()->GetY() + y_direction][temporary->GetSourcePoint()->GetX() + x_direction] = VISITING;
-		
+
 		// make the move
 		temporary->TryMove(y_direction, x_direction);
 
+		_temporary_pointer = new NextNode(temporary);
 		// updating the parent
+		_temporary_pointer->SetParentNode(_temporary_parent);
+
+		// fixing the g
+		temporary->FixG();
 
 		// getting the iterators
-
-		// updating the priority queue and the gray list
+		_gray_iterator = find(_gray.begin(), _gray.end(), _temporary_pointer);
+		_black_iterator = find(_black.begin(), _black.end(), _temporary_pointer);
+		// checking if the updated current is in black or gray (already visited or about to be)
+		if (_black_iterator == _black.end() && _gray_iterator == _gray.end())
+		{
+			_priority_queue.emplace(_temporary_pointer);
+			_gray.push_back(_temporary_pointer);
+		}
+		// fixing the move we've being made - in case we didn't find target yet
+		temporary->FixPoint(y_direction, x_direction);
 	}
-	
+
+	if (!_a_star_started)
+	{
+
+	}
 }
 
 void A_StarSearch()
@@ -342,12 +369,16 @@ void A_StarSearch()
 				_maze[_current_node->GetSourcePoint()->GetY()][_current_node->GetSourcePoint()->GetX()] = VISITED_SOURCE_TARGET;
 
 			// try to move up
+			TryMove_A_Star(_current_node, 1, 0);
 
 			// try to move down
+			TryMove_A_Star(_current_node, -1, 0);
 
 			// try to move right
+			TryMove_A_Star(_current_node, 0, 1);
 
 			// try to move left
+			TryMove_A_Star(_current_node, 0, -1);
 		}
 	}
 }
@@ -402,7 +433,7 @@ int main(int argc, char* argv[])
 	// here the color mode is RGB and the buffer is a double buffer which required for smooth animation.
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
 	// creating the window and assigning a title
-	glutCreateWindow("Test Window Title");
+	glutCreateWindow("Maze Solver");
 	
 	// register callbacks // refresh function
 	glutDisplayFunc(RenderDisplay);

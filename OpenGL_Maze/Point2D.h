@@ -7,7 +7,7 @@ private:
 public:
 	Point2D();
 	~Point2D();
-	Point2D(int y, int x);
+	Point2D(int, int);
 	int GetX() const;
 	int GetY() const;
 	void SetX(int);

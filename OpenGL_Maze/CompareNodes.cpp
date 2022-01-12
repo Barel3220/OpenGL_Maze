@@ -10,5 +10,8 @@ CompareNodes::~CompareNodes()
 
 bool CompareNodes::operator()(NextNode* node_1, NextNode* node_2)
 {
-	return false;
+	if (node_1->GetF() > node_2->GetF())
+		return true;
+	else
+		return false;
 }
